@@ -10,16 +10,19 @@ import google.generativeai as genai
 from googletrans import Translator
 import os
 from flask import Flask, request, jsonify
+from dotenv import load_dotenv
 
 flask_app = Flask(__name__)
 
 # Initialize Firebase app
-cred = credentials.Certificate('/Users/divjot/Development/CalmNest/backend/firebase_credentials.json')  # Path to your Firebase service account key file
+firebase_credentials_path = os.getenv('FIREBASE_CREDENTIALS')
+cred = credentials.Certificate(firebase_credentials_path)  # Path to your Firebase service account key file
 firebase_admin.initialize_app(cred)
 db = firestore.client()  # Get Firestore client
 
 # Configure the Gemini API with your API key
-genai.configure(api_key="AIzaSyADImpvFindPFR2tfmrksjEvVSuZ99ruF0")
+genai_api_key = os.getenv('GENAI_API_KEY')
+genai.configure(api_key=genai_api_key)
 
 
 class MentalHealthAssistant:
